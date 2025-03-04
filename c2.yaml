@@ -2,4 +2,4 @@ experiment_dir: "test"
 name: "c2"
 port: 23456
 other_ports: [12345, 34567]
-clock_speed: 3
+clock_speed: 2

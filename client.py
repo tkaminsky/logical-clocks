@@ -100,18 +100,19 @@ class ClientProcess:
         Note: This implementation assumes that the port passed in is the same
         as the port this instance is bound to.
         """
-        print(f"[INFO] Waiting for a message on port {self.port} ...")
+        if self.logging:
+            print(f"[INFO] Waiting for a message on port {self.port} ...")
         try:
             conn, addr = self.server_socket.accept()
             with conn:
                 data = conn.recv(1024)
                 # Message is a dictionary
                 message = json.loads(data.decode('utf-8'))
-                print(f"[INFO] Received message: {message}")
+                if self.logging:
+                    print(f"[INFO] Received message: {message}")
 
                 return message
         except Exception as e:
-            print(f"Could not receive message: {e}")
             return
 
     # Fast queue adds messages outside of the clock ticks  

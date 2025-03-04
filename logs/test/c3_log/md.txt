@@ -1,4 +1,4 @@
 Name: c3
 Port: 34567
-Clock Speed: 6
+Clock Speed: 1
 Experiment Directory: test

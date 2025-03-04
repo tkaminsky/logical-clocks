@@ -1,4 +1,4 @@
 Name: c2
 Port: 23456
-Clock Speed: 3
+Clock Speed: 1
 Experiment Directory: test

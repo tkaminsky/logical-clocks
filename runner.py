@@ -43,7 +43,7 @@ def main():
             received = communicator.await_message()
             if received is not None:
                 communicator.append_message(received)
-                print(f"[INFO] Message received: {received}")
+                # print(f"[INFO] Message received: {received}")
             else:
                 print("Socket closed. Exiting listener thread.")
                 break
@@ -76,23 +76,19 @@ def main():
             else:
                 randn = randint(1,11)
 
-                # If 1 or 2, send a message to one of the other ports
-                if randn == 1 or randn == 2:
-                    port_idx = 0 if randn == 1 else 1
-                    send_port = other_ports[port_idx]
+                if randn >= 4:
+                    communicator.internal_event()
+                    continue
+
+                if randn == 3:
+                    curr_ports = other_ports 
+                else:
+                    curr_ports = [other_ports[randn - 1]]
+
+                for send_port in curr_ports:
                     tick = communicator.ticks
                     message = {"tick": tick, "port": communicator.port}
                     communicator.send_message(message, send_port)
-                # Send a message to both machines
-                elif randn == 3:
-                    for port_idx in [0,1]:
-                        send_port = other_ports[port_idx]
-                        tick = communicator.ticks
-                        message = {"tick": tick, "port": communicator.port}
-                        communicator.send_message(message, send_port)
-                # Otherwise, just do an internal event
-                else:
-                    communicator.internal_event()
 
             # After executing, return to unavailable
             communicator.set_unavailable()
