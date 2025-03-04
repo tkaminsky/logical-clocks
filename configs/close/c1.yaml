@@ -1,0 +1,5 @@
+experiment_dir: "close"
+name: "c1"
+port: 12345
+other_ports: [23456, 34567]
+clock_speed: 5
