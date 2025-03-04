@@ -1,0 +1,4 @@
+Name: c1
+Port: 12345
+Clock Speed: 1
+Experiment Directory: test
