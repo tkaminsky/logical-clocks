@@ -52,6 +52,9 @@ def main():
     listener_thread.daemon = True
     listener_thread.start()
 
+    # Wait for a bit before starting the main loop
+    time.sleep(1)
+
     start_time = time.time()
 
     # Main loop
