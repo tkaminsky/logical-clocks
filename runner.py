@@ -33,6 +33,8 @@ def main():
     experiment_dir = config['experiment_dir']
     randn_UB = config['randn_UB']
 
+    n_agents = len(other_ports)
+
     time_limit = args.time
 
     # Create an instance bound to the local port.
@@ -80,12 +82,14 @@ def main():
             else:
                 randn = randint(1,randn_UB + 1)
 
-                if randn >= 4:
+                if randn > n_agents + 1:
                     communicator.internal_event()
                     continue
 
-                if randn == 3:
+                # Send a message to all other ports
+                if randn == n_agents + 1:
                     curr_ports = other_ports 
+                # Send to a random port
                 else:
                     curr_ports = [other_ports[randn - 1]]
 

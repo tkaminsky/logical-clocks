@@ -1,8 +1,8 @@
 #!/bin/bash
 
-experiment_name="small_distance"
-n_clients=5
-clock_speeds=(3 3.1 3.2 3.2 3.3)
+experiment_name="pc_3_3_3.5"
+n_clients=3
+clock_speeds=(3 3 3.5)
 randn_UB=10
 
 ports=($(shuf -i 10000-65535 -n $n_clients))
