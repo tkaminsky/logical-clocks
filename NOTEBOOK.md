@@ -26,3 +26,23 @@ Note that, for taking messsages off of the queue, we assume that messages are fi
 
 Broadly, `runner.py` contains broad specificiation (like the probabilities of taking each kind of action), and the underlying class in `client.py` encodes the logic for logging, sending/receiving messages, and updating the clock.
 
+
+## Results
+
+
+
+### Observation: Even with equal clocks, queues can grow unboundedly.
+
+Here, we took $n=30$ agents, each with a clock speed of $5$ ticks/second. 
+
+We see that the local times remain within a bounded distance, and the jump times converge to approximately 1. However, the queue length for some agents continues to grow. This is because, in effect, 
+
+The reason why some agents don't have queue growth is most likely because, once an agent has a nonempty queue, it stops sending messages. This means that some set of agents get their queues filled at a steady rate, and all others now only recieve a small set of messages which they can control.
+
+Here is a gif summary of our results:
+
+<div style="display: flex; align-items: center;">
+  <img src="media/30_agents/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 33%; margin-right: 10px;">
+  <img src="media/30_agents/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 33%; margin-right: 10px;">
+  <img src="media/30_agents/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs TimeLocal" style="max-width: 33%;">
+</div>
