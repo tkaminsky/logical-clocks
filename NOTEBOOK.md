@@ -6,6 +6,8 @@ Below we describe some of our thoughts for design exercise two.
 
 #### [Implementation](#implementation-1)
 
+#### [Experiments](#experiments-1)
+
 ## Implementation
 
 To model each process, our broad strategy will be to create one class which is parametrized by the following (variable) experimental parameters:
@@ -30,8 +32,40 @@ Broadly, `runner.py` contains broad specificiation (like the probabilities of ta
 
 ### Jump Sizes
 
+One metric of interest to us is the "jump size" between consecutive operations for a given process. We defined jump size the same way as in EdPost [#76](https://edstem.org/us/courses/69416/discussion/6308559). More specifically, the jump size of a process at time $t$ is the average difference between consecutive operations of the process up to time $t$. The jump time at $t = 0$ is defined to be 0.
+
+It follows directly, that the process with the fastest clock speed would have a jump time that is asymptotically one since after the first time step the consecutive difference is always 1. We would also suspect the processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 1, 3, 6.
+
+![](media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif)
+
+We also wanted to investigate how the relative timings affected the jump size. To this end, we scaled the clock size up and down by 2 and graphed the results. We notice that the overall behavior remains the same, however, a lower clock speed tends to result n a higher actual jump size. This is especially noticeable for config 1. This makes intuitive sense, since if the process is leaving messages in the queue for longer, than the absolute change in tick value will increase.
+
+|                        Scaled up by 2                         |                         Scaled down by 2                          |
+| :-----------------------------------------------------------: | :---------------------------------------------------------------: |
+| ![](media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif) | ![](media/scaled_long_clocks_0.5_1.5_3//TimeGlob_vs_JumpTime.gif) |
+
+An additive change to the timings preserves the overall behavior, but does not a seem to provide a consistent effect on the absolute value of the jump size.
+
+![](media/added_long_clocks_6_8_11/TimeGlob_vs_JumpTime.gif)
+
 ### Time Drift
 
+We also were interested in measuring the time drift between the clocks. As in EdPost [#76](https://edstem.org/us/courses/69416/discussion/6308559) we define time drift as the difference in the values of the individual logical clocks at a given time. For varying clock times, we noticed that there is a significant drift between the slowest clock time and the other two clock times. The second fastest clock time does not drift too far away from the fastest clock time.
+
+![](media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif)
+
+This behavior is preserved when scaling the clock speeds. This indicates that drift of between two clocks seems to be related to their relative (multiplicative) magnitude to one another.
+
+|                         Scaled up by 2                         |                          Scaled down by 2                          |
+| :------------------------------------------------------------: | :----------------------------------------------------------------: |
+| ![](media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif) | ![](media/scaled_long_clocks_0.5_1.5_3//TimeGlob_vs_TimeLocal.gif) |
+
+Further evidence of this is that when we increased the clock speeds of all the clocks by the same amount, the time drift between the clocks dropped significantly. When we added a constant amount to the clock speeds, we ultimately reduced the multiplicative clock ratio which seems to correspond to this decrease in clock drift.
+
+![](media/added_long_clocks_6_8_11/TimeGlob_vs_TimeLocal.gif)
+
 ### Queue Size
+
+![](media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif)
 
 ### Varying Internal Event Probability
