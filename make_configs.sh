@@ -1,9 +1,10 @@
 #!/bin/bash
 
-experiment_name="low_internal_prob"
+experiment_name="low_prob_3_agents"
 n_clients=3
-clock_speeds=(10 10 10)
-randn_UB=5
+# clock_speeds=($(for ((i=0; i<n_clients; i++)); do echo 5; done))
+clock_speeds=(1 3 6)
+randn_UB=$(($n_clients + 1 + 500))
 
 ports=($(shuf -i 10000-65535 -n $n_clients))
 
@@ -19,7 +20,7 @@ fi
 
 for ((i=0; i<n_clients; i++)); do
     # Create a config of the form c[i].yaml
-    echo "experiment_dir: ${experiment_name}" >> "${dir}c$((i + 1)).yaml"
+    echo "experiment_dir: ${experiment_name}" > "${dir}c$((i + 1)).yaml"
     echo "name: c$((i + 1))" >> "${dir}c$((i + 1)).yaml"
 
     echo "port: ${ports[i]}" >>  "${dir}c$((i + 1)).yaml"
