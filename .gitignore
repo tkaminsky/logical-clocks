@@ -8,6 +8,7 @@ __pycache__/
 
 # Ignore logs directory
 logs/
+configs/
 
 # Distribution / packaging
 .Python

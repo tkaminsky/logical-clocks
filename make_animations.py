@@ -4,21 +4,37 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 import matplotlib.ticker as ticker
 from matplotlib.animation import PillowWriter
+import argparse
+import os
 
+# Read experiment name from the command line
+parser = argparse.ArgumentParser(description="Make animations for the experiment.")
+parser.add_argument("-e", "--experiment", type=str, help="Experiment name.")
+parser.add_argument("-s", "--subtitle", type=str, help="Subtitle data.")
+args = parser.parse_args()
 
-base_dir = "logs/close/"
-csv_paths = ["c1_log/events.csv", "c2_log/events.csv", "c3_log/events.csv"]
+if args.experiment is None:
+    # Raise an error if no experiment name is provided
+    print("[ERROR] No experiment name provided.")
+    exit(1)
 
-subtitle_data = "Clock Speeds: 1,2,3"
+experiment_name = args.experiment
+base_dir = f"logs/{experiment_name}/"
+
+csv_paths = [f"{base_dir}{dir_now}/events.csv" for dir_now in os.listdir(base_dir)]
+
+subtitle_data = args.subtitle
 
 xs_to_graph = ['TimeGlob', 'TimeGlob']
 ys_to_graph = ['QueueLen', 'TimeLocal']
+
+window = 20  # sliding window size
 
 # Read the data from the CSV file logs/test/c1_log/events.csv
 dfs = []
 
 for path in csv_paths:
-    df = pd.read_csv(base_dir + path)
+    df = pd.read_csv(path)
     dfs.append(df)
 
 for x, y in zip(xs_to_graph, ys_to_graph):
@@ -69,21 +85,11 @@ for x, y in zip(xs_to_graph, ys_to_graph):
     ax.set_xlabel(x)
     ax.set_ylabel(y)
 
-    # Make title
-    # ax.set_title(f"{x} vs {y}")
-    # # Make subtitle
-    # ax.text(0.5, 0.95, subtitle_data, horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
-
     fig.subplots_adjust(top=0.84)  # adjust as needed for your title/subtitle spacing
 
     # Set the centered main title and subtitle using the figure's methods.
     fig.suptitle(f"{x} vs {y}", fontsize=16, fontweight='bold', y=0.95)
     fig.text(0.5, 0.85, subtitle_data, ha='center', fontsize=12)
-
-
-
-    window = 20  # sliding window size
-    # window = T
 
     # Determine the maximum number of frames based on each dataset
     max_frames = int(T)

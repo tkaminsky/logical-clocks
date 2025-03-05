@@ -31,6 +31,7 @@ def main():
     clock_speed = config['clock_speed']
     name = config['name']
     experiment_dir = config['experiment_dir']
+    randn_UB = config['randn_UB']
 
     time_limit = args.time
 
@@ -77,7 +78,7 @@ def main():
             if len(communicator.network_queue) > 0:
                 message = communicator.read_message()
             else:
-                randn = randint(1,11)
+                randn = randint(1,randn_UB + 1)
 
                 if randn >= 4:
                     communicator.internal_event()
