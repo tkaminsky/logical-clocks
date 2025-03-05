@@ -63,26 +63,23 @@ The top row of charts show that the queue lengths periodically "empty", indicati
 
 We note that this behavior is consistant across uniform multiples of clock speeds. This makes sense, as speeding up all clocks by 2x both doubles the expected rate at which messages are sent and the rate at which agents can read their messages.
 
-<div align="center">
-<table>
+<table align="center" width="100%">
   <tr>
-    <td><img src="media/pc_1_1.5_2/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100"></td>
-    <td><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100"></td>
-    <td><img src="media/pc_4_6_8/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100"></td>
+    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100%"></td>
   </tr>
   <tr>
-    <td><img src="media/pc_1_1.5_2/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100"></td>
-    <td><img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100"></td>
-    <td><img src="media/pc_4_6_8/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100"></td>
+    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100%"></td>
   </tr>
   <tr>
-    <td><img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100"></td>
-    <td><img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100"></td>
-    <td><img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100"></td>
+    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100%"></td>
   </tr>
 </table>
-</div>
-
 
 ### Observation: Distant Clocks May Yield Unbounded Queues and Time Delays
 
