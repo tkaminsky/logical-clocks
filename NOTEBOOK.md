@@ -34,23 +34,23 @@ Broadly, `runner.py` contains broad specificiation (like the probabilities of ta
 
 One metric of interest to us is the "jump size" between consecutive operations for a given process. We defined jump size the same way as in EdPost [#76](https://edstem.org/us/courses/69416/discussion/6308559). More specifically, the jump size of a process at time $t$ is the average difference between consecutive operations of the process up to time $t$. The jump time at $t = 0$ is defined to be 0.
 
-It follows directly, that the process with the fastest clock speed would have a jump time that is asymptotically one since after the first time step the consecutive difference is always 1. We would also suspect the processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 1, 3, 6.
+It follows directly, that the process with the fastest clock speed would have a jump time that is asymptotically one since after the first time step the consecutive difference is always 1. We would also suspect the processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 2, 3, 4.
 
 <center>
-<img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
 </center>
 
-We also wanted to investigate how the relative timings affected the jump size. To this end, we scaled the clock size up and down by 2 and graphed the results. We notice that the overall behavior remains the same, however, a lower clock speed tends to result n a higher actual jump size. This is especially noticeable for config 1. This makes intuitive sense, since if the process is leaving messages in the queue for longer, than the absolute change in tick value will increase.
+We also wanted to investigate how the relative timings affected the jump size. To this end, we scaled the clock size up and down by 2 and graphed the results. We notice that the overall behavior is exactly the same.
 
 <center>
-  <img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-  <img src="media/scaled_long_clocks_0.5_1.5_3//TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
+  <img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
+  <img src="media/pc_4_6_8//TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
 </center>
 
 An additive change to the timings preserves the overall behavior, but does not a seem to provide a consistent effect on the absolute value of the jump size.
 
 <center>
-<img src="media/added_long_clocks_6_8_11/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/pc_.5_1.5_2.5/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
 </center>
 
 <!-- Here, we set a distance of
@@ -83,6 +83,12 @@ Further evidence of this is that when we increased the clock speeds of all the c
 </center>
 
 ### Queue Size
+
+We notice that if a machine has a slow enough clock, then its queue can grow unboundedly.
+
+<center>
+<img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+</center>
 
 #### Observation: Even with equal clocks, queues can grow unboundedly.
 
