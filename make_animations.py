@@ -102,7 +102,7 @@ for x, y in zip(xs_to_graph, ys_to_graph):
     ymin = min(queue_len_mins)
     ymax = max(queue_len_maxs)
     ax.set_ylim(ymin, ymax)
-    ax.legend()
+    # ax.legend()
     ax.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
     # Name axes
