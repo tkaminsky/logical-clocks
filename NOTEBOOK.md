@@ -46,9 +46,17 @@ Here is a gif summary of our results:
   <img src="media/30_agents/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 33%; margin-right: 10px;">
   <img src="media/30_agents/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs TimeLocal" style="max-width: 33%;">
 </div>
-## Experiments
+
 
 ### Jump Sizes
+
+Here, we set a distance of 
+
+<div style="display: flex; align-items: center;">
+  <img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 33%; margin-right: 10px;">
+  <img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 33%; margin-right: 10px;">
+  <img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs TimeLocal" style="max-width: 33%;">
+</div>
 
 ### Time Drift
 
