@@ -1,9 +1,9 @@
 #!/bin/bash
 
-experiment_name="added_long_clocks_6_8_11"
+experiment_name="low_internal_prob"
 n_clients=3
-clock_speeds=(6  8  11)
-randn_UB=10
+clock_speeds=(10 10 10)
+randn_UB=5
 
 ports=($(shuf -i 10000-65535 -n $n_clients))
 
