@@ -1,9 +1,9 @@
 #!/bin/bash
 
-experiment_name="two_equal"
-n_clients=3
-clock_speeds=(1 1 2)
-randn_UB=20
+experiment_name="small_distance"
+n_clients=5
+clock_speeds=(3 3.1 3.2 3.2 3.3)
+randn_UB=10
 
 ports=($(shuf -i 10000-65535 -n $n_clients))
 

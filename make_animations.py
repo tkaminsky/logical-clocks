@@ -21,7 +21,15 @@ if args.experiment is None:
 experiment_name = args.experiment
 base_dir = f"logs/{experiment_name}/"
 
-csv_paths = [f"{base_dir}{dir_now}/events.csv" for dir_now in os.listdir(base_dir)]
+subdirs = os.listdir(base_dir)
+
+# If it is not a directory, remove it from the list
+subdirs = [dir_now for dir_now in subdirs if os.path.isdir(f"{base_dir}{dir_now}")]
+
+csv_paths = [f"{base_dir}{dir_now}/events.csv" for dir_now in subdirs]
+
+# Sort them alpanumerically
+csv_paths.sort()
 
 subtitle_data = args.subtitle
 
