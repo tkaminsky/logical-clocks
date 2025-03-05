@@ -93,19 +93,19 @@ This also yields a gradual desynchronization of the slowest process from the fas
 <div align="center">
 <table>
   <tr>
-    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100"></td>
-    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100"></td>
-    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100"></td>
+    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="200"></td>
+    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="200"></td>
+    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="200"></td>
   </tr>
   <tr>
-    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100"></td>
-    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100"></td>
-    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100"></td>
+    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="200"></td>
+    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="200"></td>
+    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="200"></td>
   </tr>
   <tr>
-    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100"></td>
-    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100"></td>
-    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100"></td>
+    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="200"></td>
+    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="200"></td>
+    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="200"></td>
   </tr>
 </table>
 </div>
