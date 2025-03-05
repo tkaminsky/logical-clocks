@@ -1,8 +1,8 @@
 #!/bin/bash
 
-experiment_name="30_agents_equal_times"
-n_clients=30
-clock_speeds=( $(for i in {1..30}; do echo 5; done) )
+experiment_name="added_long_clocks_6_8_11"
+n_clients=3
+clock_speeds=(6  8  11)
 randn_UB=10
 
 ports=($(shuf -i 10000-65535 -n $n_clients))
