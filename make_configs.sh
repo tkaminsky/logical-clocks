@@ -1,8 +1,8 @@
 #!/bin/bash
 
-experiment_name="pc_.5_1.5_2.5"
+experiment_name="added_long_clocks_6_8_11"
 n_clients=3
-clock_speeds=(0.5 1.5 2.5)
+clock_speeds=(6  8  11)
 randn_UB=10
 
 ports=($(shuf -i 10000-65535 -n $n_clients))

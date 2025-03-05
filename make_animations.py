@@ -90,7 +90,7 @@ for x, y in zip(xs_to_graph, ys_to_graph):
     if len(dfs) > len(colors):
         colors = create_distinguishable_colors(len(dfs))
 
-    
+
 
     for i in range(len(dfs)):
         # line, = ax.plot([], [], f'{colors[i]}-', label=f'Config {i+1}')
