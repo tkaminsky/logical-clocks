@@ -90,25 +90,23 @@ Conversely, experiments 4-6 show that, when relative clock speeds are sufficient
 
 This also yields a gradual desynchronization of the slowest process from the faster ones, as it reads messages which are, by the end of the program, around 40 sends old. However, the faster process is able to keep up, and it doesn't experience this divergence.
 
-<div align="center">
-<table>
+<table align="center" width="100%">
   <tr>
-    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="200"></td>
-    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="200"></td>
-    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="200"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100%"></td>
   </tr>
   <tr>
-    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="200"></td>
-    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="200"></td>
-    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="200"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100%"></td>
   </tr>
   <tr>
-    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="200"></td>
-    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="200"></td>
-    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="200"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100%"></td>
   </tr>
 </table>
-</div>
 
 
 ### Jump Sizes
