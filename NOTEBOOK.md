@@ -62,23 +62,27 @@ We found that clocks with similar relative times (1-3) incurred only bounded que
 The top row of charts show that the queue lengths periodically "empty", indicating that each process is able to read all messages over time. Finally, the bottom row of charts indicate that the average jump time---which is higher when processes are further back in time---reaches a steady state for each process. This indicates that the agents are likely to maintain stable time synchronization, as they remain boundedly far behind the fastest clock upon updates. 
 
 We note that this behavior is consistant across uniform multiples of clock speeds. This makes sense, as speeding up all clocks by 2x both doubles the expected rate at which messages are sent and the rate at which agents can read their messages.
-<center>
-  <img src="media/pc_1_1.5_2/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/pc_4_6_8/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
-</center>
 
 <center>
-  <img src="media/pc_1_1.5_2/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/pc_4_6_8/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
+<table>
+  <tr>
+    <td><img src="media/pc_1_1.5_2/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100"></td>
+    <td><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100"></td>
+    <td><img src="media/pc_4_6_8/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100"></td>
+  </tr>
+  <tr>
+    <td><img src="media/pc_1_1.5_2/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100"></td>
+    <td><img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100"></td>
+    <td><img src="media/pc_4_6_8/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100"></td>
+  </tr>
+  <tr>
+    <td><img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100"></td>
+    <td><img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100"></td>
+    <td><img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100"></td>
+  </tr>
+</table>
 </center>
 
-<center>
-  <img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
-</center>
 
 ### Observation: Distant Clocks May Yield Unbounded Queues and Time Delays
 
@@ -86,24 +90,24 @@ Conversely, experiments 4-6 show that, when relative clock speeds are sufficient
 
 This also yields a gradual desynchronization of the slowest process from the faster ones, as it reads messages which are, by the end of the program, around 40 sends old. However, the faster process is able to keep up, and it doesn't experience this divergence.
 
-
-
 <center>
-  <img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
-</center>
-
-<center>
-  <img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
-</center>
-
-<center>
-  <img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
+<table>
+  <tr>
+    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100"></td>
+    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100"></td>
+    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100"></td>
+  </tr>
+  <tr>
+    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100"></td>
+    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100"></td>
+    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100"></td>
+  </tr>
+  <tr>
+    <td><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100"></td>
+    <td><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100"></td>
+    <td><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100"></td>
+  </tr>
+</table>
 </center>
 
 
