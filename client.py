@@ -11,6 +11,7 @@ class Events(Enum):
     RECEIVED_MSG = 1
     SENT_MSG = 2
     INTERNAL_EVENT = 3
+    BROADCAST_MSG = 4
 
 """
     clock_speed: the speed of the client's clock, in tics/sec
@@ -33,7 +34,7 @@ class ClientProcess:
 
         # Local clock
         self.ticks = 0
-        self.is_available = True 
+        self.is_available = True
         self.last_available=self.time
 
         self.logging = False
@@ -61,7 +62,7 @@ class ClientProcess:
         self.log_path = f"logs/{experiment_dir}/{name}_log/events.csv"
         self.log = open(self.log_path, 'w')
         self.log.write(f"Event,TimeGlob,TimeLocal,QueueLen,FromPort,ToPort\n")
-    
+
     # Determines whether the client is available to process an event
     def update_availability(self):
         if not self.is_available and self.time - self.last_available > 1/ self.clock_speed:
@@ -79,21 +80,26 @@ class ClientProcess:
         self.log.write(string)
 
     # Message is a dictionary
-    def send_message(self, message, port):
+    def send_message(self, message, ports):
         """Sends the given message to the specified port."""
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            try:
-                s.connect((self.host, port))
-                s.sendall(json.dumps(message).encode('utf-8'))
-                if self.logging:
-                    print(f"[INFO] Sent message to port {port}: {message}")
-            except Exception as e:
-                print(f"[ERROR] Could not send message to port {port}: {e}")
+        for port in ports:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                try:
+                    s.connect((self.host, port))
+                    s.sendall(json.dumps(message).encode('utf-8'))
+                    if self.logging:
+                        print(f"[INFO] Sent message to port {port}: {message}")
+                except Exception as e:
+                    print(f"[ERROR] Could not send message to port {port}: {e}")
 
         # Log event,send time, ticks, queue length, from port, to port
-        string = f"{Events.SENT_MSG},{self.time},{self.ticks},{len(self.network_queue)},{self.port},{port}\n"
+        if len(ports) == 1:
+            port = ports[0]
+            string = f"{Events.SENT_MSG},{self.time},{self.ticks},{len(self.network_queue)},{self.port},{port}\n"
+        else:
+            string = f"{Events.BROADCAST_MSG},{self.time},{self.ticks},{len(self.network_queue)},{self.port},{':'.join([str(x) for x in ports])}\n"
         self.log.write(string)
-    
+
     def await_message(self):
         """
         Waits for an incoming message on the specified port.
@@ -115,10 +121,10 @@ class ClientProcess:
         except Exception as e:
             return
 
-    # Fast queue adds messages outside of the clock ticks  
+    # Fast queue adds messages outside of the clock ticks
     def append_message(self, message):
         self.network_queue.append(message)
-    
+
     # Clock reads message from the queue
     def read_message(self):
         message = self.network_queue.popleft()
@@ -136,7 +142,7 @@ class ClientProcess:
         self.log.write(string)
 
         return message
-    
+
     def close(self):
         self.server_socket.close()
         self.log.close()

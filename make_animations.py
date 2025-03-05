@@ -33,8 +33,8 @@ csv_paths.sort()
 
 subtitle_data = args.subtitle
 
-xs_to_graph = ['TimeGlob', 'TimeGlob']
-ys_to_graph = ['QueueLen', 'TimeLocal']
+xs_to_graph = ['TimeGlob', 'TimeGlob', 'TimeGlob']
+ys_to_graph = ['QueueLen', 'TimeLocal', 'JumpTime']
 
 window = 20  # sliding window size
 
@@ -43,6 +43,8 @@ dfs = []
 
 for path in csv_paths:
     df = pd.read_csv(path)
+    diffs = df['TimeLocal'].diff().fillna(0)
+    df['JumpTime'] = diffs.expanding().mean()
     dfs.append(df)
 
 for x, y in zip(xs_to_graph, ys_to_graph):
@@ -113,7 +115,7 @@ for x, y in zip(xs_to_graph, ys_to_graph):
             ax.set_xlim(0, frame)
         else:
             ax.set_xlim(frame - window, frame)
-        
+
         # For each dataframe, filter the data within the current x-axis window
         for i, df in enumerate(dfs):
             if frame < window:
@@ -122,7 +124,7 @@ for x, y in zip(xs_to_graph, ys_to_graph):
             else:
                 # Select points within [frame-window, frame]
                 mask = (df[x] > frame - window) & (df[x] <= frame)
-            
+
             lines[i].set_data(df[x][mask], df[y][mask])
 
         # Gather y data from all lines that have non-empty data
@@ -132,7 +134,7 @@ for x, y in zip(xs_to_graph, ys_to_graph):
             # Optionally, add a margin so the points don't touch the border
             margin = (y_max - y_min) * 0.1 if y_max != y_min else 1
             ax.set_ylim(y_min - margin, y_max + margin)
-        
+
         return lines
 
 

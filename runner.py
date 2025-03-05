@@ -84,19 +84,12 @@ def main():
 
                 if randn > n_agents + 1:
                     communicator.internal_event()
-                    continue
-
-                # Send a message to all other ports
-                if randn == n_agents + 1:
-                    curr_ports = other_ports 
-                # Send to a random port
                 else:
-                    curr_ports = [other_ports[randn - 1]]
-
-                for send_port in curr_ports:
+                    # Send a message to all other ports
+                    send_ports = other_ports if randn == n_agents + 1 else [other_ports[randn - 1]]
                     tick = communicator.ticks
                     message = {"tick": tick, "port": communicator.port}
-                    communicator.send_message(message, send_port)
+                    communicator.send_message(message, send_ports)
 
             # After executing, return to unavailable
             communicator.set_unavailable()
