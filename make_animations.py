@@ -5,7 +5,20 @@ import numpy as np
 import matplotlib.ticker as ticker
 from matplotlib.animation import PillowWriter
 import argparse
+import colorsys
 import os
+
+def create_distinguishable_colors(n):
+    # Generate a list of n distinguishable colors
+    # Adapted from https://stackoverflow.com/a/9701141
+    colors = []
+    for i in np.arange(0., 360., 360. / n):
+        hue = i / 360.
+        lightness = (50 + np.random.rand() * 10) / 100.
+        saturation = (90 + np.random.rand() * 10) / 100.
+        colors.append(tuple(colorsys.hls_to_rgb(hue, lightness, saturation) )
+    )
+    return colors
 
 # Read experiment name from the command line
 parser = argparse.ArgumentParser(description="Make animations for the experiment.")
@@ -69,16 +82,17 @@ for x, y in zip(xs_to_graph, ys_to_graph):
     fig, ax = plt.subplots()
 
     # Initialize line objects for each dataset
-    colors = ['b', 'r', 'g', 'y', 'm', 'c']
+    colors = ['b', 'r', 'g', 'y', 'm', 'c', 'k', 'orange', 'purple', 'brown', 'pink', 'gray']
+
     lines = []
-    try:
-        assert len(dfs) <= len(colors)
-    except AssertionError:
-        print(f"Error: Too many datasets. Maximum number of datasets is {len(colors)}.")
-        exit(1)
+    if len(dfs) > len(colors):
+        colors = create_distinguishable_colors(len(dfs))
+
+    
 
     for i in range(len(dfs)):
-        line, = ax.plot([], [], f'{colors[i]}-', label=f'Config {i+1}')
+        # line, = ax.plot([], [], f'{colors[i]}-', label=f'Config {i+1}')
+        line, = ax.plot([], [], color=colors[i], linestyle="solid", label=f'Config {i+1}')
         lines.append(line)
 
     # Set plot limits (adjust these based on your data)
