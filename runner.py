@@ -84,6 +84,7 @@ def main():
 
                 if randn > n_agents + 1:
                     communicator.internal_event()
+                    communicator.set_unavailable()
                     continue
 
                 # Send a message to all other ports
