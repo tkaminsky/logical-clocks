@@ -47,9 +47,9 @@ One metric of interest to us is the "jump size" between consecutive operations f
 
 It follows directly that the process with the fastest clock speed would have a jump time that is asymptotically one, since after the first time step the consecutive difference is always 1. We would also suspect that processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 2, 3, 4.
 
-<center>
+<div align="center">
 <img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" width="50%">
-</center>
+</div>
 
 We also wanted to investigate how the relative timings affected the jump size. To this end, we scaled the clock size up and down by 2 and graphed the results. We notice that the overall behavior is exactly the same.
 
@@ -62,9 +62,9 @@ We also wanted to investigate how the relative timings affected the jump size. T
 
 An additive change to the timings preserves the overall behavior, but does not a seem to provide a consistent effect on the absolute value of the jump size.
 
-<center>
+<div align="center">
 <img src="media/pc_.5_1.5_2.5/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" width="50%">
-</center>
+</div>
 
 <!-- Here, we set a distance of
 
@@ -78,9 +78,9 @@ An additive change to the timings preserves the overall behavior, but does not a
 
 We also were interested in measuring the time drift between the clocks. As in EdPost [#76](https://edstem.org/us/courses/69416/discussion/6308559) we define time drift as the difference in the values of the individual logical clocks at a given time. For varying clock times, we noticed that there is a significant drift between the slowest clock time and the other two clock times. The second fastest clock time does not drift too far away from the fastest clock time.
 
-<center>
+<div align="center">
 <img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" width="50%">
-</center>
+</div>
 
 This behavior is preserved when scaling the clock speeds. This indicates that drift of between two clocks seems to be related to their relative (multiplicative) magnitude to one another.
 
@@ -93,17 +93,17 @@ This behavior is preserved when scaling the clock speeds. This indicates that dr
 
 Further evidence of this is that when we increased the clock speeds of all the clocks by the same amount, the time drift between the clocks dropped significantly. When we added a constant amount to the clock speeds, we ultimately reduced the multiplicative clock ratio which seems to correspond to this decrease in clock drift.
 
-<center>
+<div align="center">
 <img src="media/added_long_clocks_6_8_11/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" width="50%">
-</center>
+</div>
 
 ### Queue Size
 
 We notice that if a machine has a slow enough clock, then its queue can grow unboundedly.
 
-<center>
+<div align="center">
 <img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" width="50%">
-</center>
+</div>
 
 As we describe in detail in later sections, the slowness of a clock seems to depend on its speed relative to other clocks. For example, In the following experiment, we see that even if the clocks are separated by 1 tick/sec each, some processes can have an unbounded queue, and others can have a bounded queue:
 
