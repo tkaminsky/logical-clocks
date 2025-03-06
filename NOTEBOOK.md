@@ -48,20 +48,22 @@ One metric of interest to us is the "jump size" between consecutive operations f
 It follows directly that the process with the fastest clock speed would have a jump time that is asymptotically one, since after the first time step the consecutive difference is always 1. We would also suspect that processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 2, 3, 4.
 
 <center>
-<img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" width="50%">
 </center>
 
 We also wanted to investigate how the relative timings affected the jump size. To this end, we scaled the clock size up and down by 2 and graphed the results. We notice that the overall behavior is exactly the same.
 
-<center>
-  <img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-  <img src="media/pc_4_6_8//TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-</center>
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/pc_4_6_8//TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
 
 An additive change to the timings preserves the overall behavior, but does not a seem to provide a consistent effect on the absolute value of the jump size.
 
 <center>
-<img src="media/pc_.5_1.5_2.5/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/pc_.5_1.5_2.5/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" width="50%">
 </center>
 
 <!-- Here, we set a distance of
@@ -77,20 +79,22 @@ An additive change to the timings preserves the overall behavior, but does not a
 We also were interested in measuring the time drift between the clocks. As in EdPost [#76](https://edstem.org/us/courses/69416/discussion/6308559) we define time drift as the difference in the values of the individual logical clocks at a given time. For varying clock times, we noticed that there is a significant drift between the slowest clock time and the other two clock times. The second fastest clock time does not drift too far away from the fastest clock time.
 
 <center>
-<img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" width="50%">
 </center>
 
 This behavior is preserved when scaling the clock speeds. This indicates that drift of between two clocks seems to be related to their relative (multiplicative) magnitude to one another.
 
-<center>
-  <img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-  <img src="media/scaled_long_clocks_0.5_1.5_3//TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-</center>
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/scaled_long_clocks_0.5_1.5_3//TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
 
 Further evidence of this is that when we increased the clock speeds of all the clocks by the same amount, the time drift between the clocks dropped significantly. When we added a constant amount to the clock speeds, we ultimately reduced the multiplicative clock ratio which seems to correspond to this decrease in clock drift.
 
 <center>
-<img src="media/added_long_clocks_6_8_11/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/added_long_clocks_6_8_11/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" width="50%">
 </center>
 
 ### Queue Size
@@ -98,38 +102,49 @@ Further evidence of this is that when we increased the clock speeds of all the c
 We notice that if a machine has a slow enough clock, then its queue can grow unboundedly.
 
 <center>
-<img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
+<img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" width="50%">
 </center>
 
 As we describe in detail in later sections, the slowness of a clock seems to depend on its speed relative to other clocks. For example, In the following experiment, we see that even if the clocks are separated by 1 tick/sec each, some processes can have an unbounded queue, and others can have a bounded queue:
 
-<center>
-<img src="media/pc_.5_1.5_2.5/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-<img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
-</center>
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/pc_.5_1.5_2.5/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
 
 ### Internal Event Probability
 
 Internal event probability does seem to have a significant impact on the ability of a process to correct its time. In particular, since reading from a queue always takes priority over the other actions, we find that increasing the internal event probability offers a "buffer" for slow processes to catch up by slowly reading through queues. For example, we see in this case that increasing the internal event probability keeps the average queue size from increasing unboundedly:
 
-<center>
-<img src="media/IP_1_4/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-<img src="media/IP_100_103/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
-</center>
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/IP_1_4/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/IP_100_103/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
+
 
 However, in exchange for this, the infrequency of messages means that the slow process will lag behind the faster processes for some time, until it receives a new message:
 
-<center>
-<img src="media/IP_1_4/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-<img src="media/IP_100_103/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
-</center>
+
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/IP_1_4/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/IP_100_103/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
 
 This yields highly unstable average jumps:
 
-<center>
-<img src="media/IP_1_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
-<img src="media/IP_100_103/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
-</center>
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/IP_1_4/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/IP_100_103/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
+
 
 ### Extra Question: Number of Agents
 
