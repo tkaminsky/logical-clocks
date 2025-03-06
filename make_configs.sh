@@ -1,10 +1,21 @@
 #!/bin/bash
 
-experiment_name="low_prob_3_agents"
-n_clients=3
+experiment_name="60_agents_2_3_3"
+n_clients=60
 # clock_speeds=($(for ((i=0; i<n_clients; i++)); do echo 5; done))
-clock_speeds=(1 3 6)
-randn_UB=$(($n_clients + 1 + 500))
+# Generate clock speeds randomly between 4 and 6
+# clock_speeds=()
+# for ((i=0; i<n_clients; i++)); do
+#     clock_speeds+=($(shuf -i 1-3 -n 1))
+# done
+# clock_speeds=(1 3 3)
+# Make clock speed of first client 1, then 3 for remaing n_clients - 1 clients
+clock_speeds=(2)
+for ((i=1; i<n_clients; i++)); do
+    clock_speeds+=(3)
+done
+
+randn_UB=$(($n_clients + $n_clients))
 
 ports=($(shuf -i 10000-65535 -n $n_clients))
 

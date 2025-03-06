@@ -15,7 +15,7 @@ configs=($(ls $dir))
 # Loop through each config and run runner.py in the background
 for config in "${configs[@]}"; do
     echo "Starting runner.py with config $dir$config"
-    python runner.py -c "$dir$config" -t 60 &
+    python runner.py -c "$dir$config" -t 120 &
 done
 
 # Wait for all background processes to complete

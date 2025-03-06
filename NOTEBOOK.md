@@ -6,8 +6,8 @@
 Below we describe some of our thoughts for design exercise two. In the first section, we explain our thought process for the implementation of the model, and in the second, we go over some interesting results.
 
 #### [Implementation](#implementation-1)
-
-#### [Results](#results-1)
+#### [Broad Results](#broad-results-1)
+#### [Experiment-Specific Results](#detailed-results-for-individual-experiemnts)
 
 ## Implementation
 
@@ -37,80 +37,15 @@ After you've edited `make_configs.sh` to encode your specifications, running exp
 python make_animations.py -e [EXPERIMENT_NAME] -s [Plot Subtitle]
 ```
 
-## Results
+### Broad Results
 
-Below we describe some results found during our experiments.
-
-Changing Clock Times (in ticks/sec). All clients had 6/10 probability of an internal action:
-1. (1, 1.5, 2)
-2. (2, 3, 4)
-3. (4, 6, 8)
-4. (0.5, 1.5, 3)
-5. (1, 3, 6)
-6. (2, 6, 12)
-7. (0.5, 1.5, 2.5)
-8. ()
-
-Note that experiments 1-3 have constant ratios between clock times, as do experiments 4-6, with 1-3 having "closer" clock speeds than 4-6. Experiment 
-
-Thus, we think about 1-6 as comparing _multiplicative_ relationships between clock speeds, and (2,5) vs (7,8) as testing _additive_ relationships.
-
-### Observation: Close Clocks Maintain Bounded Queues and Time Delays
-
-We found that clocks with similar relative times (1-3) incurred only bounded queue lengths in their slowest members, and as a result their clocks were periodically rectified with the fastest clock, as can be seen in the middle row of plots. We see that, over two minutes, the two slower processes are periodically returned to the local time of the fastest clock.
-
-The top row of charts show that the queue lengths periodically "empty", indicating that each process is able to read all messages over time. Finally, the bottom row of charts indicate that the average jump time---which is higher when processes are further back in time---reaches a steady state for each process. This indicates that the agents are likely to maintain stable time synchronization, as they remain boundedly far behind the fastest clock upon updates. 
-
-We note that this behavior is consistant across uniform multiples of clock speeds. This makes sense, as speeding up all clocks by 2x both doubles the expected rate at which messages are sent and the rate at which agents can read their messages.
-
-<table align="center" width="100%">
-  <tr>
-    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
-    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
-    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100%"></td>
-  </tr>
-  <tr>
-    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
-    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
-    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100%"></td>
-  </tr>
-  <tr>
-    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
-    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
-    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100%"></td>
-  </tr>
-</table>
-
-### Observation: Distant Clocks May Yield Unbounded Queues and Time Delays
-
-Conversely, experiments 4-6 show that, when relative clock speeds are sufficiently large, it is possible for the queue to grow unboundedly. As we see in the first row of plots below, the length of the slowest process' queue generally increases, and never returns to 0 after the first few timesteps.
-
-This also yields a gradual desynchronization of the slowest process from the faster ones, as it reads messages which are, by the end of the program, around 40 sends old. However, the faster process is able to keep up, and it doesn't experience this divergence.
-
-<table align="center" width="100%">
-  <tr>
-    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
-    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
-    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100%"></td>
-  </tr>
-  <tr>
-    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
-    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
-    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100%"></td>
-  </tr>
-  <tr>
-    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
-    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
-    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100%"></td>
-  </tr>
-</table>
-
+Below we describe general results relevant to the problem specification, including analysis of jump size, time drift, and queue length across settings. For more detailed descriptions of specific experiments, see the section on [Specific Results](#detailed-results-for-individual-experiemnts).
 
 ### Jump Sizes
 
 One metric of interest to us is the "jump size" between consecutive operations for a given process. We defined jump size the same way as in EdPost [#76](https://edstem.org/us/courses/69416/discussion/6308559). More specifically, the jump size of a process at time $t$ is the average difference between consecutive operations of the process up to time $t$. The jump time at $t = 0$ is defined to be 0.
 
-It follows directly, that the process with the fastest clock speed would have a jump time that is asymptotically one since after the first time step the consecutive difference is always 1. We would also suspect the processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 2, 3, 4.
+It follows directly that the process with the fastest clock speed would have a jump time that is asymptotically one, since after the first time step the consecutive difference is always 1. We would also suspect that processes with slower clocks will have larger jump times since they are more likely to have to update the logical clock to a value that is larger than their predicted next tick value. We see this behavior directly when comparing processes with clock speeds 2, 3, 4.
 
 <center>
 <img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
@@ -166,18 +101,164 @@ We notice that if a machine has a slow enough clock, then its queue can grow unb
 <img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 50%;">
 </center>
 
-#### Observation: Even with equal clocks, queues can grow unboundedly.
-
-Here, we took $n=30$ agents, each with a clock speed of $5$ ticks/second.
-
-We see that the local times remain within a bounded distance, and the jump times converge to approximately 1. However, the queue length for some agents continues to grow. This is because, in effect,
-
-The reason why some agents don't have queue growth is most likely because, once an agent has a nonempty queue, it stops sending messages. This means that some set of agents get their queues filled at a steady rate, and all others now only recieve a small set of messages which they can control.
-
-Here is a gif summary of our results:
+As we describe in detail in later sections, the slowness of a clock seems to depend on its speed relative to other clocks. For example, In the following experiment, we see that even if the clocks are separated by 1 tick/sec each, some processes can have an unbounded queue, and others can have a bounded queue:
 
 <center>
-  <img src="media/30_agents/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/30_agents/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 30%; margin-right: 10px;">
-  <img src="media/30_agents/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs TimeLocal" style="max-width: 30%;">
+<img src="media/pc_.5_1.5_2.5/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
+<img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
 </center>
+
+### Internal Event Probability
+
+Internal event probability does seem to have a significant impact on the ability of a process to correct its time. In particular, since reading from a queue always takes priority over the other actions, we find that increasing the internal event probability offers a "buffer" for slow processes to catch up by slowly reading through queues. For example, we see in this case that increasing the internal event probability keeps the average queue size from increasing unboundedly:
+
+<center>
+<img src="media/IP_1_4/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
+<img src="media/IP_100_103/TimeGlob_vs_QueueLen.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
+</center>
+
+However, in exchange for this, the infrequency of messages means that the slow process will lag behind the faster processes for some time, until it receives a new message:
+
+<center>
+<img src="media/IP_1_4/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
+<img src="media/IP_100_103/TimeGlob_vs_TimeLocal.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
+</center>
+
+This yields highly unstable average jumps:
+
+<center>
+<img src="media/IP_1_4/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%; margin-right: 10px;">
+<img src="media/IP_100_103/TimeGlob_vs_JumpTime.gif" alt="TimeGlob vs QueueLen" style="max-width: 45%;">
+</center>
+
+### Extra Question: Number of Agents
+
+Another question that we wondered about was whether increasing the number of agents would change the ability of a slower one to maintain its queue. Intuitively, if an agent recieves 3 messages/second from $n$ agents, it is effectively receiving $3n$ messages per second. To test this, we took $n-1$ agents to have clock speed $3$, and $1$ agent to have clock speed $1$. To balance the probabilities of internal events, each setting has a $50\%$ chance of doing an internal, and a $50\%$ chance to perform an external action.
+
+As you can see in the figure below, we actually don't see this behavior change with growing agent counts (similar trends hold for 60 and 100 agents, and with different clock speeds). This may be because, though the number of agents sending messages increases, the effective probability of a sent message going specifically to agent $1$ simultaneously decreases, because there are many more agents who could be the target of a message. 
+
+<table align="center" width="100%">
+  <tr>
+    <td width="50%"><img src="media/3_agents_2_3_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/30_agents_2_3_3/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="media/3_agents_2_3_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/30_agents_2_3_3/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="media/3_agents_2_3_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="50%"><img src="media/30_agents_2_3_3/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+  </tr>
+</table>
+
+
+
+## Detailed Results for Individual Experiemnts
+
+Below we describe some specific results found during our experiments.
+
+
+Many of our experiments concern __Changing Clock Times__ (in ticks/sec). All clients had 6/10 probability of an internal action, and all these experiments had 3 agents. We tested the following clock times:
+1. $(1, 1.5, 2)$
+2. $(2, 3, 4)$
+3. $(4, 6, 8)$
+4. $(0.5, 1.5, 3)$
+5. $(1, 3, 6)$
+6. $(2, 6, 12)$
+7. $(0.5, 1.5, 2.5)$
+8. $(6, 8, 11)$
+
+Note that experiments 1-3 have constant ratios between clock times, as do experiments 4-6, with 1-3 having "closer" clock speeds than 4-6. Experiment 
+
+Thus, we think about 1-6 as comparing _multiplicative_ relationships between clock speeds, and (2,5) vs (7,8) as testing _additive_ relationships.
+
+### Observation: Close Clocks Maintain Bounded Queues and Time Delays
+
+We found that clocks with similar relative times (1-3) incurred only bounded queue lengths in their slowest members, and as a result their clocks were periodically rectified with the fastest clock, as can be seen in the middle row of plots. We see that, over two minutes, the two slower processes are periodically returned to the local time of the fastest clock.
+
+The top row of charts show that the queue lengths periodically "empty", indicating that each process is able to read all messages over time. Finally, the bottom row of charts indicate that the average jump time---which is higher when processes are further back in time---reaches a steady state for each process. This indicates that the agents are likely to maintain stable time synchronization, as they remain boundedly far behind the fastest clock upon updates. 
+
+We note that this behavior is consistant across uniform multiples of clock speeds. This makes sense, as speeding up all clocks by 2x both doubles the expected rate at which messages are sent and the rate at which agents can read their messages.
+
+<table align="center" width="100%">
+  <tr>
+    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="33%"><img src="media/pc_1_1.5_2/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/pc_4_6_8/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100%"></td>
+  </tr>
+</table>
+
+### Observation: Distant Clocks May Yield Unbounded Queues and Time Delays
+
+Conversely, experiments 4-6 show that, when relative clock speeds are sufficiently large, it is possible for the queue to grow unboundedly. As we see in the first row of plots below, the length of the slowest process' queue generally increases, and never returns to 0 after the first few timesteps.
+
+This also yields a gradual desynchronization of the slowest process from the faster ones, as it reads messages which are, by the end of the program, around 40 sends old. However, the faster process is able to keep up, and it doesn't experience this divergence.
+
+Like in the previous case, we see that multiplying all clock speeds by a common factor does not qualitatively impact these results.
+
+<table align="center" width="100%">
+  <tr>
+    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_QueueLen.gif" alt="Image 3" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_TimeLocal.gif" alt="Image 3" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="33%"><img src="media/scaled_long_clocks_0.5_1.5_3/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+    <td width="33%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+    <td width="33%"><img src="media/scaled_long_clocks_2_6_12/TimeGlob_vs_JumpTime.gif" alt="Image 3" width="100%"></td>
+  </tr>
+</table>
+
+### Observation: Convergence/Divergence is Not Determined by Absolute Differences
+
+In experiments 2 vs 7 and 5 vs 8, we compare the performance of clocks with equal absolute distances.
+
+For example, in the figure below, we compare two processes with inter-clock distances of 2 and 3. The first column, corresponding to slower clocks, has the slowest clock diverging (and queue size growing unboundedly). However, the second plot (with faster clocks) is able to regularly empty its queue.
+
+<table align="center" width="100%">
+  <tr>
+      <td width="50%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+    <td width="50%"><img src="media/added_long_clocks_6_8_11/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+  </tr>
+  <tr>
+   <td width="50%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+    <td width="50%"><img src="media/added_long_clocks_6_8_11/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+  </tr>
+  <tr>
+      <td width="50%"><img src="media/long_clocks_1_3_6/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+    <td width="50%"><img src="media/added_long_clocks_6_8_11/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+  </tr>
+</table>
+
+Likewise, when the clocks are all absolute distance 1 apart, we see exactly the same difference in behavior:
+
+<table align="center" width="100%">
+  <tr>
+      <td width="50%"><img src="media/pc_.5_1.5_2.5/TimeGlob_vs_QueueLen.gif" alt="Image 2" width="100%"></td>
+    <td width="50%"><img src="media/pc_2_3_4/TimeGlob_vs_QueueLen.gif" alt="Image 1" width="100%"></td>
+  </tr>
+  <tr>
+   <td width="50%"><img src="media/pc_.5_1.5_2.5/TimeGlob_vs_TimeLocal.gif" alt="Image 2" width="100%"></td>
+    <td width="50%"><img src="media/pc_2_3_4/TimeGlob_vs_TimeLocal.gif" alt="Image 1" width="100%"></td>
+  </tr>
+  <tr>
+      <td width="50%"><img src="media/pc_.5_1.5_2.5/TimeGlob_vs_JumpTime.gif" alt="Image 2" width="100%"></td>
+    <td width="50%"><img src="media/pc_2_3_4/TimeGlob_vs_JumpTime.gif" alt="Image 1" width="100%"></td>
+  </tr>
+</table>
